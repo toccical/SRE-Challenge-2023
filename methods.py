@@ -31,7 +31,7 @@ class Token:
 
         #Return None if the user doesn't exist
         if result is None:
-            abort(403)
+            abort(403, 'No user found.')
         
         #Assign the result to variables
         stored_password, salt, role = result
@@ -41,11 +41,11 @@ class Token:
 
         if hashed_password == stored_password:
             # If the password is valid, generate a JWT token with the role in the payload.
-            payload = {'username': username, 'role': role}
+            payload = {'role': role}
             token = jwt.encode(payload, jwt_secret, algorithm='HS512')
             return token
         else:
-            abort(403)
+            abort(403, 'Wrong password.')
 
 
 class Restricted:
@@ -66,4 +66,4 @@ class Restricted:
             return data
         except jwt.InvalidTokenError:
             # Token is invalid
-            return "You don't have access to this data"
+            return "Invalid token received."

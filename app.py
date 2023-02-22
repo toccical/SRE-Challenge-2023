@@ -23,7 +23,7 @@ def url_health():
 # e.g. http://127.0.0.1:8000/login
 @app.route("/login", methods=['POST'])
 def url_login():
-    username = request.forgitm['username']
+    username = request.form['username']
     password = request.form['password']
     res = {
         "data": login.generate_token(username, password)
